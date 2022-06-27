@@ -1,66 +1,62 @@
 import random
 from random import randint
+from globals import *
 
+genus_count = 0
 org_count = 1
-latin_numbers = ["primus", "secundus", "tertius", "quartus", "quintus", "sextus", "septimus", "octavus", "nonus", "decimus"]
-alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-characteristics_list = [
-    "immune-strong",
-    "immune-weak",
-    "thick-skin",
-    "thin-skin",
-    "birth-egg",
-    "birth-live",
-    "reproduce-a",
-    "reproduce-s",
-    "skin-dark",
-    "skin-light",
-    "vision-monocular",
-    "vision-bimonocular",
-    "vision-colour",
-    "diet-carnivore",
-    "diet-omnivore",
-    "diet-herbivore",
-    "movement-wings",
-    "movement-flight",
-    "movement-fast",
-    "movement-agile",
-    "movement-slow",
-    "breathe-underwater",
-    "breathe-land",
-    "large-ears",
-    "medium-ears",
-    "small-ears",
-    "large-feet",
-    "medium-feet",
-    "small-feet",
-    "large-nose",
-    "medium-nose",
-    "small-nose",
-    "size-large",
-    "size-medium",
-    "size-small"
 
-]
+
+def generate_characteristics():
+    characteristics = []
+    for i in range(0, 10):
+        c_valid = False
+        while c_valid is False:
+            c = randint(0, len(characteristics_list) - 1)
+            if characteristics_list[c] not in characteristics:
+                characteristics.append(characteristics_list[c])
+                c_valid = True
+    return characteristics
 
 
 class Organism(object):
-    def __init__(self):
+    def __init__(self, genus=None, species=None, characteristics=None, population=None, location=None, ancestors=None):
         global org_count
         self.id = org_count
         org_count += 1
-        self.name = self.generate_name()
-        self.characteristics = self.generate_characteristics()
+
+        if ancestors is None:
+            self.ancestors = []
+        else:
+            self.ancestors = ancestors
+
+        if characteristics is None:
+            self.characteristics = generate_characteristics()
         self.genetic_code = self.generate_genetic_code()
 
-        self.population = randint(100, 1000)
-        self.location = None
+        if population is None:
+            self.population = random.randint(1000, 10000)
+        else:
+            self.population = population
+        self.location = location
+
+        if genus is None and species is None:
+            generated_name = self.generate_name()
+            self.genus = generated_name[0]
+            self.species = generated_name[1]
+        else:
+            self.genus = genus
+            self.species = species
 
     def __str__(self):
-        return str(self.id) + " " + self.name + " " + str(self.characteristics) + " " + self.genetic_code + " " + str(self.population)
+        return str(self.id) + " " + self.genus + " " + self.species + " " + str(self.characteristics) + " " + self.genetic_code + " " + str(self.population)
 
     def generate_name(self):
-        return "Organism " + latin_numbers[self.id - 1]
+        if len(self.ancestors) == 0:
+            global genus_count
+            genus_count += 1
+            return latin_numbers[genus_count - 1], latin_numbers[0]
+        else:
+            return self.ancestors[0].genus, latin_numbers[len(self.ancestors)]
 
     def generate_genetic_code(self):
         genetic_code = ""
@@ -70,13 +66,6 @@ class Organism(object):
 
     def migrate(self, environment):
         self.location = environment
-
-
-    def generate_characteristics(self):
-        characteristics = []
-        for i in range(0, 10):
-            characteristics.append(characteristics_list[randint(0, len(characteristics_list) - 1)])
-        return characteristics
 
     def make_extinct(self):
         self.population = 0
@@ -94,3 +83,10 @@ class Organism(object):
                 self.genetic_code = "".join(genetic_code)
                 target_valid = True
 
+    def speciate(self):
+        new_org = Organism(ancestors=[self] + self.ancestors)
+        # print(str([self] + self.ancestors))
+        return new_org
+
+    def create_similar(self):
+        return True
