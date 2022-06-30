@@ -18,8 +18,13 @@ def generate_characteristics():
     return characteristics
 
 
+def reset_genus_count():
+    global genus_count
+    genus_count = 0
+
+
 class Organism(object):
-    def __init__(self, genus=None, species=None, characteristics=None, population=None, location=None, ancestors=None):
+    def __init__(self, genus=None, species=None, characteristics=None, population=None, location=None, ancestors=None, descendants=None):
         global org_count
         self.id = org_count
         org_count += 1
@@ -28,6 +33,11 @@ class Organism(object):
             self.ancestors = []
         else:
             self.ancestors = ancestors
+
+        if ancestors is None:
+            self.descendants = []
+        else:
+            self.descendants = descendants
 
         if characteristics is None:
             self.characteristics = generate_characteristics()
@@ -49,6 +59,9 @@ class Organism(object):
 
     def __str__(self):
         return str(self.id) + " " + self.genus + " " + self.species + " " + str(self.characteristics) + " " + self.genetic_code + " " + str(self.population)
+
+    def __repr__(self):
+        return str(self.genus) + " " + str(self.species)
 
     def generate_name(self):
         if len(self.ancestors) == 0:
@@ -84,8 +97,9 @@ class Organism(object):
                 target_valid = True
 
     def speciate(self):
-        new_org = Organism(ancestors=[self] + self.ancestors)
+        new_org = Organism(ancestors=[self] + self.descendants)
         # print(str([self] + self.ancestors))
+        self.descendants = self.descendants + [new_org]
         return new_org
 
     def create_similar(self):

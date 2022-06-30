@@ -1,16 +1,15 @@
 from EvoSim.organism import *
 
 
-def test():
+def run():
+    reset_genus_count()
     organisms = []
 
-    for i in range(0, 9):
+    for i in range(0, 10):
         org = Organism()
         organisms.append(org)
-        for j in range(0, 8):
+        for j in range(0, 9):
             organisms.append(org.speciate())
 
-    for i in range(0, len(organisms) - 1):
+    for i in range(0, len(organisms)):
         print(organisms[i])
-
-    #print(organisms[0].speciate())
