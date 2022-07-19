@@ -1,5 +1,5 @@
 from EvoSim.organism import Organism
-from testing import organism_test1, organism_test2
+from testing import organism_test1, organism_test2, organism_test3
 
 
 def main():
@@ -23,6 +23,6 @@ def main():
 if __name__ == "__main__":
     organism_test1.run()
     organism_test2.run()
+    organism_test3.run()
 
-
-    #main()
+    # main()
