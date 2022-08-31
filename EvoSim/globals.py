@@ -38,3 +38,24 @@ characteristics_list = [
     "size-small"
 
 ]
+
+terrain_types = [
+    "desert",
+    "water",
+    "lava",
+    "grassland",
+    "ice",
+    "forest",
+    "jungle",
+]
+
+terrain_descriptors = [
+    "rocky",
+    "hilly",
+    "arid",
+    "fertile",
+    "swampy",
+    "humid",
+    "cold",
+    "hot",
+]
