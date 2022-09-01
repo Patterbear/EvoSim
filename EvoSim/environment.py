@@ -6,8 +6,10 @@ env_count = 0
 
 
 def generate_terrain_types():
-    terrain_type = terrain_types[random.randint(0, len(terrain_types) - 1)]
-    return terrain_type
+    terrains = []
+    for i in range(0, 5):
+        terrains.append([terrain_descriptors[random.randint(0, len(terrain_descriptors) - 1)], terrain_types[random.randint(0, len(terrain_types) - 1)]])
+    return terrains
 
 
 class Environment(object):
