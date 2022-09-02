@@ -1,6 +1,7 @@
 import random
 
 from globals import terrain_types, terrain_descriptors
+from organism import *
 
 env_count = 0
 
@@ -8,8 +9,15 @@ env_count = 0
 def generate_terrain_types():
     terrains = []
     for i in range(0, 5):
-        terrains.append([terrain_descriptors[random.randint(0, len(terrain_descriptors) - 1)], terrain_types[random.randint(0, len(terrain_types) - 1)]])
+        terrains.append([terrain_descriptors[
+                             random.randint(0, len(terrain_descriptors) - 1)],terrain_types[random.randint(0, len(terrain_types) - 1)]])
     return terrains
+
+
+def populate_environment():
+    organisms = [Organism(), random_organism()]
+    print(organisms[1])
+    return organisms
 
 
 class Environment(object):
@@ -21,4 +29,10 @@ class Environment(object):
 
         if terrains is None:
             self.terrains = generate_terrain_types()
+        else:
+            self.terrains = terrains
+
+        if organisms is None:
+            self.organisms = populate_environment()
+            print(self.organisms)
 

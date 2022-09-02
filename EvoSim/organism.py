@@ -1,9 +1,14 @@
 import random
 from random import randint
 from globals import *
+import environment
 
 genus_count = 0
 org_count = 1
+
+
+def get_current_environment():
+    return "EXAMPLE"
 
 
 def generate_characteristics():
@@ -23,6 +28,10 @@ def reset_genus_count():
     genus_count = 0
 
 
+def random_organism():
+    return Organism(latin_numbers[random.randint(0, len(latin_numbers) - 1)])
+
+
 class Organism(object):
     def __init__(self, genus=None, species=None, characteristics=None, population=None, location=None, ancestors=None, descendants=None):
         global org_count
@@ -34,25 +43,33 @@ class Organism(object):
         else:
             self.ancestors = ancestors
 
-        if ancestors is None:
+        if descendants is None:
             self.descendants = []
         else:
             self.descendants = descendants
 
         if characteristics is None:
             self.characteristics = generate_characteristics()
+
         self.genetic_code = self.generate_genetic_code()
 
         if population is None:
             self.population = random.randint(1000, 10000)
         else:
             self.population = population
-        self.location = location
+
+        if location is None:
+            self.location = get_current_environment()
+        else:
+            self.location = location
 
         if genus is None and species is None:
             generated_name = self.generate_name()
             self.genus = generated_name[0]
             self.species = generated_name[1]
+        elif species is None:
+            self.genus = genus
+            self.species = latin_numbers[random.randint(0, len(latin_numbers) - 1)]
         else:
             self.genus = genus
             self.species = species
