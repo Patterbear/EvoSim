@@ -26,9 +26,7 @@ if __name__ == "__main__":
     organism_test2.run()
     organism_test3.run()
 
-    environment_test1.run()
-    environment_test1.run()
-    environment_test1.run()
+    environment_test1.run(5)
 
     env1 = Environment()
 
