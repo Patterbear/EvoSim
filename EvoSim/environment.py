@@ -1,7 +1,7 @@
 import random
 
-from globals import terrain_types, terrain_descriptors
-from organism import *
+from EvoSim.globals import terrain_types, terrain_descriptors
+from EvoSim.organism import *
 
 env_count = 0
 

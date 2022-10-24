@@ -1,7 +1,7 @@
 import random
 from random import randint
-from globals import *
-import environment
+import EvoSim.globals as g
+import EvoSim.environment
 
 genus_count = 0
 org_count = 1
@@ -16,9 +16,9 @@ def generate_characteristics():
     for i in range(0, 10):
         c_valid = False
         while c_valid is False:
-            c = randint(0, len(characteristics_list) - 1)
-            if characteristics_list[c] not in characteristics:
-                characteristics.append(characteristics_list[c])
+            c = randint(0, len(g.characteristics_list) - 1)
+            if g.characteristics_list[c] not in characteristics:
+                characteristics.append(g.characteristics_list[c])
                 c_valid = True
     return characteristics
 
@@ -29,7 +29,7 @@ def reset_genus_count():
 
 
 def random_organism():
-    return Organism(latin_numbers[random.randint(0, len(latin_numbers) - 1)])
+    return Organism(g.latin_numbers[random.randint(0, len(g.latin_numbers) - 1)])
 
 
 class Organism(object):
@@ -69,7 +69,7 @@ class Organism(object):
             self.species = generated_name[1]
         elif species is None:
             self.genus = genus
-            self.species = latin_numbers[random.randint(0, len(latin_numbers) - 1)]
+            self.species = g.latin_numbers[random.randint(0, len(g.latin_numbers) - 1)]
         else:
             self.genus = genus
             self.species = species
@@ -84,9 +84,9 @@ class Organism(object):
         if len(self.ancestors) == 0:
             global genus_count
             genus_count += 1
-            return latin_numbers[genus_count - 1], latin_numbers[0]
+            return g.latin_numbers[genus_count - 1], latin_numbers[0]
         else:
-            return self.ancestors[0].genus, latin_numbers[len(self.ancestors)]
+            return self.ancestors[0].genus, g.latin_numbers[len(self.ancestors)]
 
     def generate_genetic_code(self):
         genetic_code = ""
@@ -109,7 +109,7 @@ class Organism(object):
             if genetic_code[target] == '-':
                 target = randint(0, len(genetic_code) - 1)
             else:
-                genetic_code[target] = alphabet[randint(0, 25)]
+                genetic_code[target] = g.alphabet[randint(0, 25)]
                 self.genetic_code = "".join(genetic_code)
                 target_valid = True
 
