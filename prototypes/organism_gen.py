@@ -1,30 +1,45 @@
-from random import randint
+from random import randint, choice
 from tkinter import *
 from turtle import RawTurtle, TurtleScreen
+from EvoSim.organism import Organism, random_organism
 
 # Primary Colours Array for testing
 prim_colours = ["red", "blue", "yellow"]
 
 
+# Function to create a new organism and display its basic attributes
+# Also calls the function that displays the organisms
+def add_organisms(canvas_x, canvas_y, nam_label, pop_label):
+    rand_org = random_organism()
+    nam_label.config(text="Name: " + rand_org.genus + " " + rand_org.species)
+    pop_label.config(text="Population: " + str(rand_org.population))
+
+    draw_circle(canvas_x, canvas_y, rand_org.population)
+
+
 # Function to draw circles of a random colour on the canvas
-def draw_circle(x, y):
-    turtle.color(prim_colours[randint(0, 2)])
+# Number of circles drawn is determined by organism's population
+def draw_circle(canvas_x, canvas_y, rand_pop):
 
-    turtle.penup()
-    turtle.setx(x)
-    turtle.sety(y)
+    # This statement modifies the color to be a normal string as this is what turtle expects
+    turtle.color(str(["#"+''.join([choice('ABCDEF0123456789') for i in range(6)])]).replace("'", "").replace('[', '').replace(']', ''))
 
-    turtle.pendown()
-    turtle.begin_fill()
-    turtle.circle(30)
-    turtle.end_fill()
+    for i in range(0, int(rand_pop/500)):
+        turtle.penup()
+        turtle.setx(randint(canvas_x*-1, canvas_x))
+        turtle.sety(randint(canvas_y*-1, canvas_y))
+
+        turtle.pendown()
+        turtle.begin_fill()
+        turtle.circle(30)
+        turtle.end_fill()
 
 
 # Root Tkinter window
 root = Tk()
 root.winfo_toplevel().iconphoto(True, Image("photo", file="../EvoSim/assets/icon.png"))
 root.title("EvoSim - Organism Generation")
-root.winfo_toplevel().geometry("600x450")
+root.winfo_toplevel().geometry("600x500")
 
 # Canvas to host the Turtle canvas
 canvas = Canvas(root, width=400, height=400)
@@ -41,8 +56,14 @@ turtle.hideturtle()
 x = canvas.winfo_width() - 200
 y = canvas.winfo_height() - 200
 
+# Labels to display generated organism attributes
+name_label = Label(root, text="Name: " + random_organism().genus + " " + random_organism().species)
+name_label.pack()
+population_label = Label(root, text="Population: " + str(random_organism().population))
+population_label.pack()
+
 # Button to generate circles at random positions
-Button(root, text="Test", command=lambda: draw_circle(randint(x*-1, x), randint(y*-1, y))).pack()
+Button(root, text="Generate", command=lambda: add_organisms(x, y, name_label, population_label)).pack()
 
 # Keeps the screen visible
 screen.mainloop()
