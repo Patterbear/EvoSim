@@ -57,9 +57,9 @@ x = canvas.winfo_width() - 200
 y = canvas.winfo_height() - 200
 
 # Labels to display generated organism attributes
-name_label = Label(root, text="Name: " + random_organism().genus + " " + random_organism().species)
+name_label = Label(root, text="Name: None")
 name_label.pack()
-population_label = Label(root, text="Population: " + str(random_organism().population))
+population_label = Label(root, text="Population: None")
 population_label.pack()
 
 # Button to generate circles at random positions
