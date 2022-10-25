@@ -9,12 +9,16 @@ prim_colours = ["red", "blue", "yellow"]
 
 # Function to create a new organism and display its basic attributes
 # Also calls the function that displays the organisms
-def add_organisms(canvas_x, canvas_y, nam_label, pop_label):
+def add_organisms(canvas_x, canvas_y, nam_label, pop_label, button):
+    button.config(state="disabled")
     rand_org = random_organism()
     nam_label.config(text="Name: " + rand_org.genus + " " + rand_org.species)
     pop_label.config(text="Population: " + str(rand_org.population))
 
+    screen.tracer(0)
     draw_circle(canvas_x, canvas_y, rand_org.population)
+    canvas.update()
+    button.config(state="normal")
 
 
 # Function to draw circles of a random colour on the canvas
@@ -47,10 +51,12 @@ canvas.pack()
 screen = TurtleScreen(canvas)
 turtle = RawTurtle(canvas)
 
+
 # Turtle configurations
 turtle.speed(0)
 turtle.pensize(5)
 turtle.hideturtle()
+
 
 # Assigning canvas dimensions to variables and creating limits
 x = canvas.winfo_width() - 200
@@ -63,7 +69,9 @@ population_label = Label(root, text="Population: None")
 population_label.pack()
 
 # Button to generate circles at random positions
-Button(root, text="Generate", command=lambda: add_organisms(x, y, name_label, population_label)).pack()
+gen_button = Button(root, text="Generate", command=lambda: add_organisms(x, y, name_label, population_label, gen_button))
+gen_button.pack()
 
+#screen.update()
 # Keeps the screen visible
 screen.mainloop()
