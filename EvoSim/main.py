@@ -2,6 +2,8 @@ from EvoSim.organism import Organism
 from EvoSim.environment import Environment
 from testing import organism_test1, organism_test2, organism_test3, environment_test1
 
+from prototypes import organism_gen, environment_gen
+
 
 def main():
 
@@ -29,5 +31,9 @@ if __name__ == "__main__":
     environment_test1.run(5)
 
     env1 = Environment()
+
+    organism_gen.run()
+
+
 
     # main()

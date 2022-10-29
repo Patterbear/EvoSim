@@ -1,7 +1,6 @@
 import random
 from random import randint
 import EvoSim.globals as g
-import EvoSim.environment
 
 genus_count = 0
 org_count = 1
@@ -84,7 +83,7 @@ class Organism(object):
         if len(self.ancestors) == 0:
             global genus_count
             genus_count += 1
-            return g.latin_numbers[genus_count - 1], latin_numbers[0]
+            return g.latin_numbers[genus_count - 1], g.latin_numbers[0]
         else:
             return self.ancestors[0].genus, g.latin_numbers[len(self.ancestors)]
 
